@@ -1,0 +1,45 @@
+package test;
+
+import java.util.Scanner;
+
+public class Test {
+
+	public static void main(String[] args) {
+		try (Scanner scanner = new Scanner(System.in)) {
+			String string = scanner.next();
+			System.out.print("\nLength is: " + longestPalSubstr(string));
+		}
+
+	}
+
+	static int longestPalSubstr(String str) {
+
+		int maxLength = 1, start = 0;
+
+		for (int i = 0; i < str.length(); i++) {
+			for (int j = i; j < str.length(); j++) {
+				int flag = 1;
+
+				for (int k = 0; k < (j - i + 1) / 2; k++)
+					if (str.charAt(i + k) != str.charAt(j - k))
+						flag = 0;
+
+				if (flag != 0 && (j - i + 1) > maxLength) {
+					start = i;
+					maxLength = j - i + 1;
+				}
+			}
+		}
+
+		System.out.print("Longest palindrome subString is: ");
+		printSubStr(str, start, start + maxLength - 1);
+
+		// return length of LPS
+		return maxLength;
+	}
+
+	static void printSubStr(String str, int low, int high) {
+		for (int i = low; i <= high; ++i)
+			System.out.print(str.charAt(i));
+	}
+}
